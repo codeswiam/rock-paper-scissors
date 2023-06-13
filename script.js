@@ -1,7 +1,27 @@
-// capitalizes the first letter of the word and turns the rest to lowercase
-function capitalize(str) {
-    return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
+let playerScore = 0;
+let computerScore = 0;
+let player = document.querySelector('.player');
+let computer = document.querySelector('.computer');
+let winner = document.querySelector('.winner');
+
+// event listeners for buttons
+const btns = document.querySelectorAll('.choice > button');
+btns.forEach( btn => btn.addEventListener('click', () => {
+    let playerSelection = btn.textContent;
+    let computerSelection = getComputerChoice();
+    let playerWon = playRound(playerSelection, computerSelection);
+    if ((playerScore < 5) && ((computerScore < 5))) {
+        if (playerWon == 1) {
+            player.textContent = ++playerScore;
+            winner.textContent = (playerScore == 5) ? `You win!` : `You win this round! ${playerSelection} beats ${computerSelection}.`;
+        } else if (playerWon == 0) {
+            computer.textContent = ++computerScore;
+            winner.textContent = (computerScore == 5) ? `You lose!` : `You lose this round! ${computerSelection} beats ${playerSelection}.`;
+        } else {
+            winner.textContent = `It's a draw!`;
+        }
+    } 
+}));
 
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 100) + 1;
@@ -15,7 +35,6 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = capitalize(playerSelection);
     // 1 : Win, 0 : Loss, 2 : Draw
     let playerWon = 1;
     // player wins by default so only treat the cases where he loses or gets a draw
@@ -34,26 +53,4 @@ function playRound(playerSelection, computerSelection) {
             break;  
     }
     return playerWon;
-}
-
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5.; i++) {
-        // get player / computer choices
-        let playerSelection = capitalize(prompt("Your choice?"));
-        let computerSelection = getComputerChoice();
-        // get round results
-        let playerWon = playRound(playerSelection, computerSelection);
-        // update the score
-        if (playerWon == 1) playerScore++;
-        else if (playerWon == 0) computerScore++;
-        // print round results
-        console.log((playerWon == 1) ? `You win this round! ${playerSelection} beats ${computerSelection}.` : 
-                    (playerWon == 0) ? `You lose this round! ${computerSelection} beats ${playerSelection}.` :
-                    `It's a draw!`) 
-    }
-    return (playerScore > computerScore) ? "You win!" :
-            (playerScore < computerScore) ? "You lose!" :
-            "It's a draw!";  
 }
