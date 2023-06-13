@@ -54,3 +54,13 @@ function playRound(playerSelection, computerSelection) {
     }
     return playerWon;
 }
+
+// the player wants to restart the game
+let restart = document.querySelector('.restart');
+restart.addEventListener('click', () => {
+    playerScore = 0;
+    computerScore = 0;
+    player.textContent = 0;
+    computer.textContent = 0;
+    winner.textContent = ``;
+})
